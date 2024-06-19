@@ -8,3 +8,6 @@ router.post("/", isLoggedIn, createMovie);
 router.get("/list", getMovies);
 
 export default router;
+
+
+//TODO: create authorization middleware
