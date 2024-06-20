@@ -22,7 +22,8 @@ export const login = async (req, res) => {
     );
     if (!userData) {
       res.status(401).send({ status: false, message: "Invalid Credentials" });
-    } else if (userData.password !== password) {
+      //compare passwords usinf decrypyt(encrypted one and the one user entered)
+    } else if (!bcrypt.compare(userData.password, password)) {
       res.status(401).send({ status: false, message: "Invalid Password" });
     }
     //1. Generate JWT token

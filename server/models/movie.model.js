@@ -1,5 +1,6 @@
 import { Schema, model } from "mongoose";
 
+
 const MovieSchema = Schema({
   title: {
     type: String,
@@ -44,10 +45,15 @@ const MovieSchema = Schema({
   },
   language: {
     type: String,
-    enum: ["English", "Hindi"],
+    enum: ["English", "Hindi", "Telugu"],
+  },
+  theatre: {
+    type: Schema.Types.ObjectId,
+    ref: "theatre",
+    required: true,
   },
 });
 
-const Movie = model("Movie", MovieSchema);
+const Movie = model("movie", MovieSchema);
 
 export default Movie;

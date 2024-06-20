@@ -46,6 +46,6 @@ UserSchema.methods = {
     return token;
   },
 };
-const User = model("User", UserSchema);
+const User = model("user", UserSchema);
 
 export default User;

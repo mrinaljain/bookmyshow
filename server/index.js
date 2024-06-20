@@ -15,7 +15,7 @@ app.use(cookieParser());
 app.use("/api/user", UserRoutes);
 app.use("/api/movie", MovieRoutes);
 
-app.listen(1212, async () => {
+app.listen(3000, async () => {
   await dbConnect();
-  console.log("Server is Running");
+  console.log("Server is Running at :3000");
 });
