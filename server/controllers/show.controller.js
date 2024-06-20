@@ -21,3 +21,8 @@ export const listShows = async function (req, res) {
     res.status(500).send(error.message);
   }
 };
+
+// TODO: solve isue with show list API
+//TODO: give shows as per current date  passed in querry params
+
+//todo create shodetail function API

@@ -10,3 +10,5 @@ export default App;
 // TODO create  movie listing also
 // TODO build OUtlet
 // TODO build search functionality
+// TODO create a movie shows(Theatre list page) page onclick of movie
+// TODO create seatmap page
