@@ -3,6 +3,7 @@ import "dotenv/config";
 import dbConnect from "./config/dbConfig.js";
 import UserRoutes from "./routes/user.routes.js";
 import MovieRoutes from "./routes/movie.routes.js";
+import ShowRoutes from "./routes/show.routes.js";
 import cookieParser from "cookie-parser";
 const app = express();
 
@@ -14,6 +15,7 @@ app.use(cookieParser());
 
 app.use("/api/user", UserRoutes);
 app.use("/api/movie", MovieRoutes);
+app.use("/api/show", ShowRoutes);
 
 app.listen(3000, async () => {
   await dbConnect();
