@@ -1,14 +1,8 @@
+import { RouterProvider } from "react-router-dom";
+import { router } from "./config/router";
+
 function App() {
-  return <h1 className="text-5xl">Hello World</h1>;
+  return <RouterProvider router={router}></RouterProvider>;
 }
 
 export default App;
-
-// TODO build routing
-// TODO keep content type check
-// TODO enable CORS in express add middlware
-// TODO create  movie listing also
-// TODO build OUtlet
-// TODO build search functionality
-// TODO create a movie shows(Theatre list page) page onclick of movie
-// TODO create seatmap page
