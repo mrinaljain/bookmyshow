@@ -4,8 +4,18 @@ import bcrypt from "bcryptjs";
 export const register = async (req, res) => {
   try {
     const userData = req.body;
+
     userData.password = await bcrypt.hash(userData.password, 10);
-    const response = await User.create(userData);
+    const newUser = await User.create(userData);
+    //1. Generate JWT token
+    const jwtToken = await newUser.generateToken();
+    //2. Add to cookies
+    res.cookie("token", jwtToken, {
+      path: "/",
+      httpOnly: true,
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+      secure: false,
+    });
     res.status(200).send({ status: true, message: "Scccesfully registered" });
   } catch (error) {
     res.statusCode = 500;
@@ -28,9 +38,13 @@ export const login = async (req, res) => {
     }
     //1. Generate JWT token
     const jwtToken = await userData.generateToken();
+    console.log("generated", jwtToken);
     //2. Add to cookies
     res.cookie("token", jwtToken, {
+      path: "/",
+      httpOnly: true,
       maxAge: 7 * 24 * 60 * 60 * 1000,
+      secure: false,
     });
     res.status(200).send({ status: true, message: "Logged in Successfully" });
   } catch (error) {
@@ -39,7 +53,6 @@ export const login = async (req, res) => {
   }
 };
 
-// TODO : get profile without the id, iplement JWT here
 export const getprofile = async (req, res) => {
   try {
     // read the value of user id passed on from middleware
@@ -52,3 +65,21 @@ export const getprofile = async (req, res) => {
     res.send(error.message);
   }
 };
+
+export const logout = async () => {
+  try {
+    // read token from request
+    // remove token from request
+    // pass 200 and handle redirection on UI
+    // read the value of user id passed on from middleware
+    const userId = req.user.id;
+    console.log("Logout the id: ", userId);
+    res.clearCookie("token", { path: "/" });
+    res.status(200).send("Logged out Succesfully");
+  } catch (error) {
+    res.statusCode = 500;
+    res.send(error.message);
+  }
+};
+
+

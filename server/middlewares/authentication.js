@@ -1,16 +1,23 @@
 import jwt from "jsonwebtoken";
 const isLoggedIn = function (req, res, next) {
-  //pick jwt from cookies
-  const { token } = req.cookies;
-  //decrypet it with the help of plugin
-  const tokenDetails = jwt.verify(token, process.env.JWT_KEY);
-  if (!tokenDetails || !token) {
-    res.status(401).send("Request Unauthinticated");
-    //  return;
+  try {
+    //pick jwt from cookies
+    const token = req.cookies.token;
+    //decrypt it with the help of plugin
+    console.log("token", token);
+    const tokenDetails = jwt.verify(token, process.env.JWT_KEY);
+    console.log("tokenDetails", tokenDetails);
+    if (!tokenDetails || !token) {
+      res.status(401).send("Request Unauthinticated");
+    }
+    // passing data to controller from middleware
+    req.user = tokenDetails;
+    next();
+  } catch (error) {
+    console.log(error.message);
+    res.status(401).send("jwt must be provided JWT verification failed");
   }
-  // passing data to controller from middleware
-  req.user = tokenDetails;
-  next();
+  
 };
 
 export default isLoggedIn;
