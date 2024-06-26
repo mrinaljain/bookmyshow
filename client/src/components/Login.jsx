@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 function Login() {
    const [formData, setFormData] = useState({ fullName: "", email: "", password: "" });
+   const [error, setError] = useState("")
    const [login, setLogin] = useState(true);
    const navigate = useNavigate();
    function handleChange(e) {
@@ -30,7 +31,8 @@ function Login() {
                console.log(data);
                navigate('/movies');
             } else {
-               //TODO handel login error here
+               const data = await response.json();
+               setError(data.message)
             }
          } else {
             var response = await fetch(SIGNUP_API, {
@@ -44,14 +46,18 @@ function Login() {
                   password: formData.password
                }),
             })
-            //TODO add check for  status code should be 200
-            const data = await response.json();
-            console.log(data);
-            navigate('/movies');
+            if (response.status === 200) {
+               const data = await response.json();
+               navigate('/movies'); 
+            } else {
+               const data = await response.json();
+               setError(data.message)
+            }
+
          }
 
       } catch (error) {
-         console.log(error.message);
+         setError(error.message)
       }
    }
    return (
@@ -141,10 +147,12 @@ function Login() {
                      </button>
                   </div>
                </form>
-               <Link to="/movies"> Go to Dashboard</Link>
+
+               {error.length > 0 && <p className='text-red-600 font-light text-l text-center'>{error}</p>} 
+
                <p className="mt-10 text-center text-sm text-gray-500">
                   {login ? "Not a member? " : "Already a member ? "}
-                  <button onClick={() => { setLogin(!login) }} className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
+                  <button onClick={() => { setLogin(!login); setError(""); }} className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
                      {login ? " Sign Up Now" : " Sign In"}
                   </button>
                </p>

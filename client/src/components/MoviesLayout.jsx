@@ -7,11 +7,11 @@ function MoviesLayout() {
    const handleLogout = async () => {
       try {
          const response = await fetch(LOGOUT, OPTIONS);
-         if (response.status === 200) {
+         // if (response.status === 200) {
             const data = await response.json();
             console.log('logout data', data);
             navigate("/");
-         }
+         // }
 
       } catch (error) {
 
@@ -34,6 +34,11 @@ function MoviesLayout() {
                <Link>Category</Link>
             </nav>
             <div>
+               <Link
+                  to="add"
+                  className='bg-blue-200 border px-3 py-1 rounded'>
+                  Add Movie
+               </Link>
                <Link
                   to="/profile"
                   className='bg-blue-200 border px-3 py-1 rounded'>

@@ -4,17 +4,14 @@ import bcrypt from "bcryptjs";
 export const register = async (req, res) => {
   try {
     const userData = req.body;
-
     userData.password = await bcrypt.hash(userData.password, 10);
     const newUser = await User.create(userData);
     //1. Generate JWT token
     const jwtToken = await newUser.generateToken();
     //2. Add to cookies
     res.cookie("token", jwtToken, {
-      path: "/",
       httpOnly: true,
       maxAge: 7 * 24 * 60 * 60 * 1000,
-      secure: false,
     });
     res.status(200).send({ status: true, message: "Scccesfully registered" });
   } catch (error) {
@@ -48,8 +45,8 @@ export const login = async (req, res) => {
     });
     res.status(200).send({ status: true, message: "Logged in Successfully" });
   } catch (error) {
-    res.statusCode = 500;
-    res.send(error.message);
+    console.log(error.message);
+    // res.send(error.message);
   }
 };
 
@@ -66,16 +63,16 @@ export const getprofile = async (req, res) => {
   }
 };
 
-export const logout = async () => {
+export const logout = async (req, res) => {
   try {
     // read token from request
     // remove token from request
     // pass 200 and handle redirection on UI
     // read the value of user id passed on from middleware
-    const userId = req.user.id;
-    console.log("Logout the id: ", userId);
-    res.clearCookie("token", { path: "/" });
-    res.status(200).send("Logged out Succesfully");
+    // const userId = req.user.id;
+    // console.log("Logout the id: ", userId);
+    // res.clearCookie("token", { path: "/" });
+    res.status(200).send({ status: true, message: "Logged out Succesfully" });
   } catch (error) {
     res.statusCode = 500;
     res.send(error.message);

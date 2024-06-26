@@ -14,14 +14,13 @@ app.use(cors());
 app.use(express.json());
 // need cookieParser middleware before we can do anything with cookies
 app.use(cookieParser());
-
 app.use("/api/user", UserRoutes);
 app.use("/api/movie", MovieRoutes);
 app.use("/api/show", ShowRoutes);
 app.use("/", express.static("public"));
-app.listen(3000, async () => {
+app.listen(3002, async () => {
   await dbConnect();
-  console.log("Server is Running at http://localhost:3000");
+  console.log("Server is Running at http://localhost:3002");
 });
 
 

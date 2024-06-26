@@ -19,7 +19,11 @@ export const createMovie = async function (req, res) {
       ...movieData,
       theatre: theatre._id,
     });
-    res.status(200).send(response);
+    res.status(200).send({
+      status: "success",
+      message: "Movie created successfully",
+      data: response,
+    });
   } catch (error) {
     res.status(500).send(error.message);
   }

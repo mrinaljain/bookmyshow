@@ -11,6 +11,6 @@ const route = express.Router();
 route.post("/register", register);
 route.post("/login", login);
 route.get("/profile", getprofile);
-route.get("/logout", isLoggedIn, logout);
+route.get("/logout", logout);
 
 export default route;

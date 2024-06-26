@@ -5,6 +5,7 @@ import Theatre from "../pages/Theatre";
 import MovieDetail from "../pages/MovieDetail";
 import MoviesLayout from "../components/MoviesLayout";
 import Profile from "../pages/Profile";
+import AddMovie from "../pages/AddMovie";
 
 export const router = createBrowserRouter([
   {
@@ -22,6 +23,10 @@ export const router = createBrowserRouter([
       {
         path: ":movieId",
         element: <MovieDetail />,
+      },
+      {
+        path: "add",
+        element: <AddMovie />,
       },
     ],
   },

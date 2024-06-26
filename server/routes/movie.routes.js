@@ -4,7 +4,7 @@ import isLoggedIn from "../middlewares/authentication.js";
 
 const router = express.Router();
 
-router.post("/", isLoggedIn, createMovie);
+router.post("/", createMovie);
 router.get("/list", getMovies);
 
 export default router;
