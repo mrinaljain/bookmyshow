@@ -3,9 +3,10 @@ import Auth from "../pages/Auth";
 import Movies from "../pages/Movies";
 import Theatre from "../pages/Theatre";
 import MovieDetail from "../pages/MovieDetail";
-import MoviesLayout from "../components/MoviesLayout";
+import HomeLayout from "../components/HomeLayout";
 import Profile from "../pages/Profile";
 import AddMovie from "../pages/AddMovie";
+import MovieLayout from "../components/MovieLayout";
 
 export const router = createBrowserRouter([
   {
@@ -13,27 +14,36 @@ export const router = createBrowserRouter([
     element: <Auth />,
   },
   {
-    path: "/movies",
-    element: <MoviesLayout />,
+    path: "movies",
+    element: <HomeLayout />,
     children: [
       {
         path: "",
         element: <Movies />,
       },
       {
-        path: ":movieId",
-        element: <MovieDetail />,
-      },
-      {
         path: "add",
         element: <AddMovie />,
       },
+      {
+        path: "",
+        element: <MovieLayout />,
+        children: [
+          {
+            path: ":movieId",
+            element: <MovieDetail />,
+            children: [
+              {
+                path: "theatre",
+                element: <Theatre />,
+              },
+            ],
+          },
+        ],
+      },
     ],
   },
-  {
-    path: "/theatre",
-    element: <Theatre />,
-  },
+
   {
     path: "/profile",
     element: <Profile />,

@@ -27,7 +27,7 @@ function MovieDetail() {
               2h 23m • Biography , Drama , Sports • UA • 14 Jun, 2024
             </p>
             <Link
-              to="theatres"
+              to="theatre"
               className="px-6 py-2 bg-red-500 rounded-md text-sm text-white"
             >
               Book Tickets
