@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { LoginUser, RegisterUser } from '../api/users.js';
+import { LoginUser, RegisterUser } from '../api/user.api.js';
 
 function Login() {
    const [formData, setFormData] = useState({ fullName: "", email: "", password: "" });
@@ -29,17 +29,24 @@ function Login() {
             const response = await RegisterUser(formData);
             console.log(response);
             if (response.status === 200) {
+               console.log(response.data.token);
                localStorage.setItem('token', response.data.token);
-               navigate('/movies'); 
+               navigate('/movies');
             } else {
                setError(response.message)
             }
-
          }
       } catch (error) {
          setError(error.message)
       }
    }
+
+   useEffect(() => {
+      if (localStorage.getItem("token")) {
+         navigate("/movies")
+      }
+   }, [])
+
    return (
          <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
             <div className="sm:mx-auto sm:w-full sm:max-w-sm">

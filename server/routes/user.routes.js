@@ -4,14 +4,16 @@ import {
   login,
   logout,
   register,
+  verifyUser,
 } from "../controllers/user.controller.js";
 import isLoggedIn from "../middlewares/authentication.js";
-import verifyToken from "../middlewares/auth.js";
+import verifyToken from "../middlewares/authMiddleware.js";
 const route = express.Router();
 //Route handelere
 route.post("/register", register);
 route.post("/login", login);
 route.get("/profile", verifyToken, getprofile);
-route.get("/logout", logout);
-
+route.get("/logout", verifyToken, logout);
+// Protected route
+route.get("/protected", verifyToken, verifyUser);
 export default route;

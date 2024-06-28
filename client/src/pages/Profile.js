@@ -1,12 +1,8 @@
 import React, { useEffect } from "react";
-import { OPTIONS, USER_PROFILE } from "../utils/constants";
-import { UserProfile } from "../api/users";
+import { UserProfile } from "../api/user.api";
 function Profile() {
   const getProfile = async () => {
     try {
-      // const response = await fetch(USER_PROFILE, OPTIONS);
-      // const data = await response.json();
-      // console.log("data", data);
       const response = await UserProfile();
       if (response.success) {
         console.log(response.data);
@@ -27,3 +23,6 @@ function Profile() {
 }
 
 export default Profile;
+
+
+//TODO create design of profile page

@@ -1,16 +1,19 @@
 import React from 'react'
 import { Link, Outlet, useNavigate } from 'react-router-dom';
-import { LOGOUT, OPTIONS } from '../utils/constants';
+import { UserLogout } from '../api/user.api';
 
 function HomeLayout() {
    const navigate = useNavigate();
    const handleLogout = async () => {
       try {
-         const response = await fetch(LOGOUT, OPTIONS);
-         const data = await response.json();
-         navigate("/");
+         //?axios API call
+         const response = await UserLogout();
+         if (response.data.success) {
+            localStorage.removeItem("token");
+            navigate("/");
+         }
       } catch (error) {
-
+         console.log(error.message);
       }
 
    }
@@ -54,3 +57,5 @@ function HomeLayout() {
 }
 
 export default HomeLayout;
+
+// TODO: manageui as per user access

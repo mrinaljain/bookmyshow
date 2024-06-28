@@ -11,7 +11,7 @@ export const register = async (req, res) => {
       email: userData.email.toLowerCase(),
     });
     if (userExists) {
-      res.status(409).send({ status: false, message: "User Already Exists" });
+      res.status(409).send({ success: false, message: "User Already Exists" });
       return;
     }
     // create new user
@@ -30,7 +30,7 @@ export const register = async (req, res) => {
         sameSite: "None",
       })
       .send({
-        status: true,
+        success: true,
         message: "Scccesfully registered",
         token: jwtToken,
       });
@@ -43,7 +43,10 @@ export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
     // check is user exist
-    const user = await User.findOne({ email: email.toLowerCase() });
+    // also we will append password to our response as it was ommited in user model
+    const user = await User.findOne({ email: email.toLowerCase() }).select(
+      "+password"
+    );
     if (!user) {
       res.status(401).send({ status: false, message: "Invalid Credentials" });
       return;
@@ -70,7 +73,7 @@ export const login = async (req, res) => {
         secure: true,
       })
       .send({
-        status: true,
+        success: true,
         message: "Logged in Successfully",
         token: jwtToken,
       });
@@ -82,10 +85,11 @@ export const login = async (req, res) => {
 export const getprofile = async (req, res) => {
   try {
     // read the value of user id passed on from middleware
-    const userId = req.user.id;
+    const userId = req.body.id;
 
     //search for user id in DB and return the profile
     const userDetail = await User.findById(userId);
+
     res.status(200).send(userDetail);
   } catch (error) {
     res.statusCode = 500;
@@ -95,21 +99,29 @@ export const getprofile = async (req, res) => {
 
 export const logout = async (req, res) => {
   try {
-    // read token from request
-    // remove token from request
-    // pass 200 and handle redirection on UI
     // read the value of user id passed on from middleware
-    // const userId = req.user.id;
-    // console.log("Logout the id: ", userId);
-    // res.clearCookie("token", { path: "/" });
-    res.status(200).send({ status: true, message: "Logged out Succesfully" });
+    const userId = req.body.id;
+
+    res.status(200).send({ success: true, message: "Logged out Succesfully" });
   } catch (error) {
     res.statusCode = 500;
     res.send(error.message);
   }
 };
 
+export const verifyUser = async (req, res) => {
+  try {
+    const userId = req.body.id;
+    const user = await User.findById(userId);
+    res
+      .status(200)
+      .send({ success: true, message: "You are verified", data: user });
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+};
+
 
 //TODO : Need to fix login password comparision not working
-
+//TODO remove authorization from cmmon place and add on required locations
 
