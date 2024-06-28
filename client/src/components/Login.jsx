@@ -20,7 +20,7 @@ function Login() {
             const response = await LoginUser(formData);
             if (response.status === 200) {
                localStorage.setItem('token', response.data.token);
-               navigate('/movies');
+               navigate('/explore');
             } else {
                setError(response.message)
             }
@@ -31,7 +31,7 @@ function Login() {
             if (response.status === 200) {
                console.log(response.data.token);
                localStorage.setItem('token', response.data.token);
-               navigate('/movies');
+               navigate('/explore');
             } else {
                setError(response.message)
             }

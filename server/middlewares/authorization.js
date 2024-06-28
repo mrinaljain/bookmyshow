@@ -5,7 +5,7 @@ const isAuthorised = (role) => {
     try {
       const userId = req.body.id;
       const user = await User.findById(userId);
-      if (user && user.role.toUpperCase == role) {
+      if (user && user.role.toUpperCase() == role.toUpperCase()) {
         next();
       } else {
         res

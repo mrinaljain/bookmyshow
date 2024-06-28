@@ -2,6 +2,10 @@ import { Schema, model } from "mongoose";
 import jwt from "jsonwebtoken";
 const UserSchema = Schema(
   {
+    imageUrl: {
+      type: String,
+      default: "https://www.gravatar.com/avatar",
+    },
     fullName: {
       type: String,
       required: [true, "Name is required"],
