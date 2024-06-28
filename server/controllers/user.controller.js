@@ -4,16 +4,36 @@ import bcrypt from "bcryptjs";
 export const register = async (req, res) => {
   try {
     const userData = req.body;
+    //encrypting the password usinf bcrypt pluging , it uses salt rounds
     userData.password = await bcrypt.hash(userData.password, 10);
-    const newUser = await User.create(userData);
-    //1. Generate JWT token
-    const jwtToken = await newUser.generateToken();
-    //2. Add to cookies
-    res.cookie("token", jwtToken, {
-      httpOnly: true,
-      maxAge: 7 * 24 * 60 * 60 * 1000,
+    // checking if user already exists on DB
+    const userExists = await User.findOne({
+      email: userData.email.toLowerCase(),
     });
-    res.status(200).send({ status: true, message: "Scccesfully registered" });
+    if (userExists) {
+      res.status(409).send({ status: false, message: "User Already Exists" });
+      return;
+    }
+    // create new user
+    let newUser = await User(userData);
+    await newUser.save();
+    // Generate JWT token
+    //? The generate token method will be called on the instance of the model class not on the parent class
+    const jwtToken = await newUser.generateToken();
+    res
+      .status(200)
+      .cookie("token", jwtToken, {
+        path: "/",
+        httpOnly: true,
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+        secure: false,
+        sameSite: "None",
+      })
+      .send({
+        status: true,
+        message: "Scccesfully registered",
+        token: jwtToken,
+      });
   } catch (error) {
     res.statusCode = 500;
     res.send(error.message);
@@ -22,31 +42,40 @@ export const register = async (req, res) => {
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    // now we need to compare useremeil and password from DB
     // check is user exist
-    const userData = await User.findOne({ email: email.toLowerCase() }).select(
-      "+password"
-    );
-    if (!userData) {
+    const user = await User.findOne({ email: email.toLowerCase() });
+    if (!user) {
       res.status(401).send({ status: false, message: "Invalid Credentials" });
+      return;
       //compare passwords usinf decrypyt(encrypted one and the one user entered)
-    } else if (!bcrypt.compare(userData.password, password)) {
-      res.status(401).send({ status: false, message: "Invalid Password" });
+    } else {
+      const passcheck = await bcrypt.compare(user.password, password);
+      console.log(passcheck);
+      if (!passcheck) {
+        res.status(401).send({ status: false, message: "Invalid Password" });
+        return;
+      }
     }
-    //1. Generate JWT token
-    const jwtToken = await userData.generateToken();
-    console.log("generated", jwtToken);
-    //2. Add to cookies
-    res.cookie("token", jwtToken, {
-      path: "/",
-      httpOnly: true,
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-      secure: false,
-    });
-    res.status(200).send({ status: true, message: "Logged in Successfully" });
+    // Generate JWT token
+    //? The generate token method will be called on the instance of the model class not on the parent class
+    const jwtToken = await user.generateToken();
+
+    //? Add JWT as an authintication header and in cookies
+    res
+      .status(200)
+      .cookie("token", jwtToken, {
+        path: "/",
+        httpOnly: true,
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+        secure: true,
+      })
+      .send({
+        status: true,
+        message: "Logged in Successfully",
+        token: jwtToken,
+      });
   } catch (error) {
-    console.log(error.message);
-    // res.send(error.message);
+    res.status(500).send(error.message);
   }
 };
 
@@ -54,6 +83,7 @@ export const getprofile = async (req, res) => {
   try {
     // read the value of user id passed on from middleware
     const userId = req.user.id;
+
     //search for user id in DB and return the profile
     const userDetail = await User.findById(userId);
     res.status(200).send(userDetail);
@@ -78,5 +108,8 @@ export const logout = async (req, res) => {
     res.send(error.message);
   }
 };
+
+
+//TODO : Need to fix login password comparision not working
 
 

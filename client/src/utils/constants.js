@@ -1,5 +1,5 @@
 const BASE_URL = "http://localhost";
-const PORT = ":3002";
+const PORT = ":3000";
 
 export const LOGIN_API = `${BASE_URL}${PORT}/api/user/login`;
 export const SIGNUP_API = `${BASE_URL}${PORT}/api/user/register`;

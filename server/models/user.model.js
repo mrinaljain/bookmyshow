@@ -26,11 +26,10 @@ const UserSchema = Schema(
       type: String,
       required: [true, "Password is required"],
       minLength: [8, "Min 8 characters required"],
-      select: false,
     },
     role: {
       type: String,
-      enum: ["USER", "ADMIN"],
+      enum: ["USER", "ADMIN", "SUPER"],
       default: "USER",
     },
   },
@@ -45,6 +44,7 @@ UserSchema.methods = {
     });
     return token;
   },
+  // more methods can be added
 };
 const User = model("user", UserSchema);
 

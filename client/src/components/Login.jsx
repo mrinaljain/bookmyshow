@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { LOGIN_API, SIGNUP_API } from '../utils/constants.js';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { LoginUser, RegisterUser } from '../api/users.js';
 
 function Login() {
    const [formData, setFormData] = useState({ fullName: "", email: "", password: "" });
@@ -16,52 +16,31 @@ function Login() {
       e.preventDefault();
       try {
          if (login) {
-            var response = await fetch(LOGIN_API, {
-            method: "POST",
-            headers: {
-               'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-               email: formData.email,
-               password: formData.password
-            }),
-            });
+            //?axios API call
+            const response = await LoginUser(formData);
             if (response.status === 200) {
-               const data = await response.json();
-               console.log(data);
+               localStorage.setItem('token', response.data.token);
                navigate('/movies');
             } else {
-               const data = await response.json();
-               setError(data.message)
+               setError(response.message)
             }
          } else {
-            var response = await fetch(SIGNUP_API, {
-               method: "POST",
-               headers: {
-                  'Content-Type': 'application/json'
-               },
-               body: JSON.stringify({
-                  fullName: formData.fullName,
-                  email: formData.email,
-                  password: formData.password
-               }),
-            })
+            //?axios API call
+            const response = await RegisterUser(formData);
+            console.log(response);
             if (response.status === 200) {
-               const data = await response.json();
+               localStorage.setItem('token', response.data.token);
                navigate('/movies'); 
             } else {
-               const data = await response.json();
-               setError(data.message)
+               setError(response.message)
             }
 
          }
-
       } catch (error) {
          setError(error.message)
       }
    }
    return (
-      <>
          <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
             <div className="sm:mx-auto sm:w-full sm:max-w-sm">
                <img
@@ -157,8 +136,7 @@ function Login() {
                   </button>
                </p>
             </div>
-         </div>
-      </>
+      </div>
    );
 }
 

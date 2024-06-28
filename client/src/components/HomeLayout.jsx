@@ -7,12 +7,8 @@ function HomeLayout() {
    const handleLogout = async () => {
       try {
          const response = await fetch(LOGOUT, OPTIONS);
-         // if (response.status === 200) {
          const data = await response.json();
-         console.log('logout data', data);
          navigate("/");
-         // }
-
       } catch (error) {
 
       }
