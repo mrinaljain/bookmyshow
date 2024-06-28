@@ -11,13 +11,10 @@ import verifyToken from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
-router.post("/", verifyToken, isAuthorised("USER"), createMovie);
+router.post("/", verifyToken, isAuthorised("ADMIN"), createMovie);
 router.get("/list", getMovies);
 router.get("/:movieId", getMovieDetail);
 router.patch("/:movieId", updateMovie);
 router.delete("/:movieId", deleteMovie);
 
 export default router;
-
-
-//TODO: create authorization middleware

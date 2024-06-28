@@ -15,5 +15,5 @@ route.post("/login", login);
 route.get("/profile", verifyToken, getprofile);
 route.get("/logout", verifyToken, logout);
 // Protected route
-route.get("/protected", verifyToken, verifyUser);
+route.get("/verifyUser", verifyToken, verifyUser);
 export default route;

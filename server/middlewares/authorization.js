@@ -20,7 +20,7 @@ const isAuthorised = (role) => {
 
 export default isAuthorised;
 
-// TODO:
+
 //authorization se yaha aaayega
 // yaha userid ki help se user ki detail nikalenge
 // usme check karenge uska role

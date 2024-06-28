@@ -14,4 +14,3 @@ function HomeLayout() {
 
 export default HomeLayout;
 
-// TODO: manageui as per user access

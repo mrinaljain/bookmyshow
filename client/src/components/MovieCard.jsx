@@ -17,6 +17,3 @@ function MovieCard(props) {
 }
 
 export default MovieCard;
-
-// TODO:  SHOW date in a nice way
-// TODO : SHOW image in a proper way

@@ -11,7 +11,6 @@ const app = express();
 // enable CORS inside app
 app.use(cors());
 
-//TODO: in order to enable access to the post request body
 // convert serelised data into Json
 app.use(express.json());
 // need cookieParser middleware before we can do anything with cookies

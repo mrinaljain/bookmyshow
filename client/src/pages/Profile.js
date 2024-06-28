@@ -40,4 +40,3 @@ function Profile() {
 
 export default Profile;
 
-//TODO create design of profile page

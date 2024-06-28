@@ -1,13 +1,13 @@
-import React from "react";
-import { UserLogout } from "../api/user.api";
+import React, { useEffect, useState } from "react";
+import { UserLogout, VerifyUser } from "../api/user.api";
 import { Link, useNavigate } from "react-router-dom";
 function Header() {
+  const [userType, setUserType] = useState("USER");
   const navigate = useNavigate();
   const handleLogout = async () => {
     try {
-      //?axios API call
       const response = await UserLogout();
-      if (response.data.success) {
+      if (response.status === 200) {
         localStorage.removeItem("token");
         navigate("/login");
       }
@@ -15,6 +15,21 @@ function Header() {
       console.log(error.message);
     }
   };
+  const getUserDetail = async () => {
+    try {
+      const response = await VerifyUser();
+      if (response.status === 200) {
+        setUserType(response?.data?.data?.role);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  useEffect(() => {
+    getUserDetail();
+  }, []);
+
   return (
     <header className="flex items-center justify-between px-5">
       <img
@@ -29,9 +44,11 @@ function Header() {
         <Link>Category</Link>
       </nav>
       <div>
-        <Link to="/admin" className="bg-blue-200 border px-3 py-1 rounded">
-          Admin
-        </Link>
+        {userType === "ADMIN" && (
+          <Link to="/admin" className="bg-blue-200 border px-3 py-1 rounded">
+            Admin
+          </Link>
+        )}
         <Link to="/profile" className="bg-blue-200 border px-3 py-1 rounded">
           Profile
         </Link>

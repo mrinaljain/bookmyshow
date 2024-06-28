@@ -123,5 +123,4 @@ export const verifyUser = async (req, res) => {
 
 
 //TODO : Need to fix login password comparision not working
-//TODO remove authorization from cmmon place and add on required locations
 
