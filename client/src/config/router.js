@@ -7,13 +7,12 @@ import HomeLayout from "../components/HomeLayout";
 import Profile from "../pages/Profile";
 import AddMovie from "../pages/AddMovie";
 import MovieLayout from "../components/MovieLayout";
-import Admin from "../components/AdminLayout";
 import AdminLayout from "../components/AdminLayout";
 import MovieList from "../components/MovieList";
 
 export const router = createBrowserRouter([
   {
-    path: "/login",
+    path: "/",
     element: <Auth />,
   },
   {

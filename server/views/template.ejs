@@ -1,0 +1,23 @@
+<h1>
+   <%= data.title %>
+</h1>
+<h2>
+   <%= data.seconds %>
+</h2>
+<% if ( data.seconds % 2===0) { %>
+   <ul>
+      <% for (let i=0; i < data.items.length; i++) { %>
+         <li>
+            <%= data.items[i] %>
+         </li>
+         <% } %>
+   </ul>
+   <% } else { %>
+
+      <p>Nothing</p>
+
+      <% } %>
+
+         <%- data.htmlContet %>
+
+            <%- include('footer.ejs') %>

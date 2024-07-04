@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Form Example</title>
+</head>
+
+<body>
+   <% if (locals.length) { %>
+      <h1>There are <%= length %> letters in your name </h1>
+      <% } else {%>
+         <h1>Enter your name below</h1>
+         <% } %>
+            <form action="/api/ejs/submit" method="POST">
+               <input type="text" id="firstName" name="firstName" required>
+               <input type="text" id="lastName" name="lastName" required>
+               <button type="submit">Submit</button>
+            </form>
+</body>
+
+</html>

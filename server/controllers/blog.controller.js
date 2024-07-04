@@ -1,17 +1,11 @@
-// get blog list (get)
-// get single blog (get)
-// create blog (post)
-// update title  (patch)
-// replace an element with certain id (put)
-// remove a blog (delete)
-
 import Blog from "../models/blog.model.js";
 
 export const createBlog = async (req, res) => {
   try {
-    const blogData = req.body;
-    const createdBlog = await Blog.create(blogData);
-    res.status(201).json(createdBlog);
+    const blogData = new Blog(req.body);
+    await blogData.save();
+
+    res.status(201).json({ success: true, message: "Created", data: blogData });
   } catch (error) {
     res.status(500).send(error.message);
   }
@@ -70,5 +64,13 @@ export const removeBlog = async (req, res) => {
     res.status(200).send(deletedBlog);
   } catch (error) {
     res.status(500).send(error.message);
+  }
+};
+export const renderBlogs = async (req, res) => {
+  try {
+    const blogs = await Blog.find({});
+    res.render("bloglist.ejs", { blogs });
+  } catch (error) {
+    console.log(error.message);
   }
 };

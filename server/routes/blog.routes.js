@@ -6,6 +6,7 @@ import {
   patchBlog,
   putBlog,
   removeBlog,
+  renderBlogs,
 } from "../controllers/blog.controller.js";
 import blogchecker from "../middlewares/blogchecker.js";
 
@@ -17,5 +18,6 @@ blogRouter.get("/:id", getBlog);
 blogRouter.patch("/:id", patchBlog);
 blogRouter.put("/:id", putBlog);
 blogRouter.delete("/:id", removeBlog);
+blogRouter.get("/", renderBlogs);
 
 export default blogRouter;

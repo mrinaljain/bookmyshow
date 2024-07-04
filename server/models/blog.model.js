@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose";
 
 const blogSchema = new Schema({
-  id: {
+  blogId: {
     type: Number,
     unique: true,
   },
@@ -12,6 +12,12 @@ const blogSchema = new Schema({
     type: String,
   },
   content: {
+    type: String,
+  },
+  createdOn: {
+    type: Date,
+  },
+  author: {
     type: String,
   },
 });
