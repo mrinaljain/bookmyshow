@@ -10,8 +10,8 @@ const verifyToken = (req, res, next) => {
 
   jwt.verify(token, process.env.JWT_KEY, (err, decoded) => {
     if (err) return res.status(401).send("Invalid Token");
-
     req.body.id = decoded.id;
+    req.body.role = decoded.role;
     next();
   });
 };

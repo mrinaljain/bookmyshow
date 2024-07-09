@@ -1,21 +1,28 @@
 import { Schema, model } from "mongoose";
 
 const ShowSchema = Schema({
-  language: {
-    type: String,
-  },
   datetime: {
     type: Date,
+    required: true,
+  },
+  language: {
+    type: String,
   },
   movie: {
     type: Schema.Types.ObjectId,
     ref: "movie",
     required: true,
   },
-  theater: {
+  theatre: {
     type: Schema.Types.ObjectId,
     ref: "theatre",
     required: true,
+  },
+  totalSeats: {
+    type: Number,
+  },
+  availableSeats: {
+    type: Number,
   },
   seats: [
     {
@@ -39,12 +46,6 @@ const ShowSchema = Schema({
       ],
     },
   ],
-  totalSseats: {
-    type: Number,
-  },
-  availableSeats: {
-    type: Number,
-  },
 });
 
 const Show = model("show", ShowSchema);

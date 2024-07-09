@@ -44,9 +44,13 @@ const UserSchema = Schema(
 );
 UserSchema.methods = {
   generateToken: function () {
-    var token = jwt.sign({ id: this._id }, process.env.JWT_KEY, {
-      expiresIn: process.env.JWT_EXPIRY,
-    });
+    var token = jwt.sign(
+      { id: this._id, role: this.role },
+      process.env.JWT_KEY,
+      {
+        expiresIn: process.env.JWT_EXPIRY,
+      }
+    );
     return token;
   },
   // more methods can be added

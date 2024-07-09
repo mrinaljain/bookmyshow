@@ -9,7 +9,7 @@ function Header() {
       const response = await UserLogout();
       if (response.status === 200) {
         localStorage.removeItem("token");
-        navigate("/login");
+        navigate("/");
       }
     } catch (error) {
       console.log(error.message);

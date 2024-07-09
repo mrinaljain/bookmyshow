@@ -100,7 +100,7 @@ export const getprofile = async (req, res) => {
 export const logout = async (req, res) => {
   try {
     // read the value of user id passed on from middleware
-    const userId = req.body.id;
+    // const userId = req.body.id;
 
     res.status(200).send({ success: true, message: "Logged out Succesfully" });
   } catch (error) {

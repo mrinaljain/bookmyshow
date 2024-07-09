@@ -13,7 +13,7 @@ const route = express.Router();
 route.post("/register", register);
 route.post("/login", login);
 route.get("/profile", verifyToken, getprofile);
-route.get("/logout", verifyToken, logout);
+route.get("/logout", logout);
 // Protected route
 route.get("/verifyUser", verifyToken, verifyUser);
 export default route;

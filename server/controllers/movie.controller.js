@@ -31,8 +31,28 @@ export const getMovies = async function (req, res) {
   try {
     // Get the current date
     const currentDate = new Date();
-    const filter = { releaseDate: { $gt: currentDate } };
-    const response = await Movie.find();
+    const type = req.query.type;
+    console.log("type", type);
+    let filter = {};
+    switch (type) {
+      case "UPCOMING":
+        filter = { releaseDate: { $gt: currentDate } };
+        break;
+      case "OLD":
+        filter = { releaseDate: { $lte: currentDate } };
+        break;
+      default:
+        filter = {};
+        break;
+    }
+    // Logic of Pagination
+    const page = req.query.page; // Current page number
+    const limit = page ? 2 : 50; // Number of documents per page
+    const skip = (page - 1) * limit;
+    const response = await Movie.find(filter)
+      .skip(skip)
+      .limit(limit)
+      .populate("theatre");
     res
       .status(200)
       .send({ success: true, message: "Movie List ", data: response });

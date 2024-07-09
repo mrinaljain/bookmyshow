@@ -15,6 +15,6 @@ const TheatreSchema = Schema({
   },
 });
 
-const Movie = model("theatre", TheatreSchema);
+const Theatre = model("theatre", TheatreSchema);
 
-export default Movie;
+export default Theatre;

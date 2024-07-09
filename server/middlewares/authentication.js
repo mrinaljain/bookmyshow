@@ -4,6 +4,7 @@ const isLoggedIn = function (req, res, next) {
     //pick jwt from cookies
     const token = req.cookies.token;
     //decrypt it with the help of plugin
+    console.log("Signed Cookies: ", req.signedCookies);
     console.log("token", token);
     const tokenDetails = jwt.verify(token, process.env.JWT_KEY);
     console.log("tokenDetails", tokenDetails);

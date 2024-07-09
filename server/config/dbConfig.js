@@ -7,7 +7,6 @@ const dbConnect = async () => {
     );
 
     if (connection) {
-      console.table(connection);
     }
   } catch (error) {
     console.log(error.message);

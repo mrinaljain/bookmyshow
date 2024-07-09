@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { ADD_MOVIE } from "../utils/constants";
+import { CreateMovie } from "../api/movie.api";
 
 function AddMovie() {
   const [movie, setMovie] = useState({
+    movieId: "25",
     title: "",
     description: "",
     thumbnail: "",
@@ -18,15 +20,8 @@ function AddMovie() {
   });
   async function addMovie(movieData) {
     try {
-      const response = await fetch(ADD_MOVIE, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(movieData),
-      });
-      const data = await response.json();
-      console.log("ADD MOVIE", data);
+      const response = CreateMovie(movieData);
+      console.log("ADD MOVIE", response);
     } catch (error) {
       console.log("ADD MOVIE", error.message);
     }
