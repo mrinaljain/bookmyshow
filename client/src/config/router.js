@@ -34,7 +34,7 @@ export const router = createBrowserRouter([
         element: <MovieDetail />,
       },
       {
-        path: "theatre",
+        path: "theatre/:movieId",
         element: <Theatre />,
       },
     ],

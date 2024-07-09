@@ -1,6 +1,7 @@
 // createShow  => /   post
 // listShows  => /list  get
 
+import mongoose from "mongoose";
 import Show from "../models/show.model.js";
 
 export const createShow = async function (req, res) {
@@ -14,15 +15,40 @@ export const createShow = async function (req, res) {
 };
 export const listShows = async function (req, res) {
   const movieId = req.query.movie;
+  // const filterdate = req.query.date || new Date();
   try {
-    const response = await Show.find({ movie: movieId });
-    res.status(200).send(response);
+    const response = await Show.aggregate([
+      {
+        $match: {
+          movie: new mongoose.Types.ObjectId(movieId),
+        },
+      },
+      // {
+      //   $match: {
+      //     datetime: {
+      //       $gte: new Date(`${filterdate}T00:00:00.000Z`),
+      //       $lt: new Date(`${filterdate}T23:59:59.999Z`),
+      //     },
+      //   },
+      // },
+      {
+        $group: {
+          _id: "$theatre",
+          shows: {
+            $push: "$$ROOT",
+          },
+        },
+      },
+    ]).exec();
+    res
+      .status(200)
+      .json({ success: true, message: "Shows Found", data: response });
   } catch (error) {
     res.status(500).send(error.message);
   }
 };
 
-// TODO: solve isue with show list API
+
 //TODO: give shows as per current date  passed in querry params
 
-//todo create shodetail function API
+// todo create shodetail function API

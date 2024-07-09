@@ -51,7 +51,7 @@ function MovieDetail() {
             {moment(movieDetail.releaseDate).format("MMM Do YY")}
           </p>
           <Link
-            to="theatre"
+            to={`theatre/${movieDetail._id}`}
             className="px-6 py-2 bg-red-500 rounded-md text-sm text-white"
           >
             Book Tickets

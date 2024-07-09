@@ -33,16 +33,18 @@ const ShowSchema = Schema({
         type: Number,
       },
       arrangement: [
-        {
-          seatNumber: {
-            type: String,
+        [
+          {
+            seatNumber: {
+              type: String,
+            },
+            status: {
+              type: String,
+              enum: ["AVAILABLE", "BOOKED", "BLOCKED"],
+              default: "AVAILABLE",
+            },
           },
-          status: {
-            type: String,
-            enum: ["AVAILABLE", "BOOKED", "BLOCKED"],
-            default: "AVAILABLE",
-          },
-        },
+        ],
       ],
     },
   ],
