@@ -1,9 +1,3 @@
-/* seat 
-  showId
-  userId(who is booking?)
-
- */
-
 import { Schema, model } from "monngoose";
 
 const BookingSchema = Schema({
@@ -11,9 +5,11 @@ const BookingSchema = Schema({
     type: Schema.Types.ObjectId,
     ref: "show",
   },
-  seats: {
-    type: String,
-  },
+  seats: [
+    {
+      type: String,
+    },
+  ],
   userId: {
     type: Schema.Types.ObjectId,
     ref: "user",

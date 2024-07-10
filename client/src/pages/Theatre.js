@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { ShowList } from "../api/theatre.api";
 import moment from "moment";
 function Theatre() {
@@ -48,10 +48,12 @@ function Theatre() {
               <h2 className="text-lg font-semibold">PVR Indore</h2>
             </div>
             <div className="flex space-x-4">
-              {theatre.shows.map((theatre) => (
-                <button className="border border-gray-300 rounded-md px-4 py-2 text-green-600 hover:bg-gray-200 transition">
-                  {moment(theatre.datetime).format("LT")}
-                </button>
+              {theatre.shows.map((show) => (
+                <Link to={`/seatlayout/${show._id}`}>
+                  <button className="border border-gray-300 rounded-md px-4 py-2 text-green-600 hover:bg-gray-200 transition">
+                    {moment(show.datetime).format("LT")}
+                  </button>
+                </Link>
               ))}
             </div>
           </div>

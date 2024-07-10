@@ -9,6 +9,7 @@ import AddMovie from "../pages/AddMovie";
 import MovieLayout from "../components/MovieLayout";
 import AdminLayout from "../components/AdminLayout";
 import MovieList from "../components/MovieList";
+import SeatMap from "../pages/SeatMap";
 
 export const router = createBrowserRouter([
   {
@@ -38,6 +39,10 @@ export const router = createBrowserRouter([
         element: <Theatre />,
       },
     ],
+  },
+  {
+    path: "seatLayout/:showId",
+    element: <SeatMap />,
   },
   {
     path: "/admin",

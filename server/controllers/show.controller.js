@@ -8,7 +8,7 @@ export const createShow = async function (req, res) {
   const showDetails = req.body;
   try {
     const response = await Show.create(showDetails);
-    res.status(200).json({ data: response });
+    res.status(200).json({ message: "Show Created", data: response });
   } catch (error) {
     res.status(500).send(error.message);
   }
@@ -48,7 +48,16 @@ export const listShows = async function (req, res) {
   }
 };
 
-
-//TODO: give shows as per current date  passed in querry params
-
-// todo create shodetail function API
+export const showDetail = async (req, res) => {
+  const showId = req.params.showId;
+  try {
+    const showDetail = await Show.findById(showId);
+    res.status(200).json({
+      success: true,
+      message: "Show Details Found",
+      data: showDetail,
+    });
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+};
