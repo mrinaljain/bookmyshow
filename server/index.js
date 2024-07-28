@@ -8,6 +8,7 @@ import BlogRoutes from "./routes/blog.routes.js";
 import EjsRoutes from "./routes/ejs.routes.js";
 import TheatreRoutes from "./routes/theatre.routes.js";
 import BookingRoutes from "./routes/booking.routes.js";
+import PaymentRoutes from "./routes/payment.routes.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import ejs from "ejs";
@@ -34,6 +35,7 @@ app.use("/api/blog", BlogRoutes);
 app.use("/api/ejs", EjsRoutes);
 app.use("/api/theatre", TheatreRoutes);
 app.use("/api/booking", BookingRoutes);
+app.use("/api/payment", PaymentRoutes);
 //running frontend on same port
 // app.use("/", express.static("public"));
 app.listen(3000, async () => {

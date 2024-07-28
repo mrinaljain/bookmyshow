@@ -127,5 +127,3 @@ export const verifyUser = async (req, res) => {
 };
 
 
-//TODO : Need to fix login password comparision not working
-

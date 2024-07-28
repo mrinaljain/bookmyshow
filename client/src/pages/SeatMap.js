@@ -21,6 +21,49 @@ function SeatMap() {
     getShowDetail();
   }, [showId]);
 
+  function payNow(e) {
+    var options = {
+      key: "rzp_test_ZSO3Lh63NllsR7", // Enter the Key ID generated from the Dashboard
+      amount: "50000", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+      currency: "INR",
+      name: "Acme Corp",
+      description: "Test Transaction",
+      image: "https://example.com/your_logo",
+      order_id: "order_Oe9mqS36TUwf97", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+      handler: function (response) {
+        alert(response.razorpay_payment_id);
+        alert(response.razorpay_order_id);
+        alert(response.razorpay_signature);
+        // TODO: verifypayment from backend by sending this detaild to backend
+        //pay_OeA9iHHlDgyKRs
+        //order_Oe9mqS36TUwf97
+        //e34a301121063266d56b116353129b6827d2bf2714a5573e0b8b33e917935a8d
+      },
+      prefill: {
+        name: "Gaurav Kumar",
+        email: "gaurav.kumar@example.com",
+        contact: "9000090000",
+      },
+      notes: {
+        address: "Razorpay Corporate Office",
+      },
+      theme: {
+        color: "#3399cc",
+      },
+    };
+    var rzp1 = new window.Razorpay(options);
+    rzp1.on("payment.failed", function (response) {
+      alert(response.error.code);
+      alert(response.error.description);
+      alert(response.error.source);
+      alert(response.error.step);
+      alert(response.error.reason);
+      alert(response.error.metadata.order_id);
+      alert(response.error.metadata.payment_id);
+    });
+    rzp1.open();
+    e.preventDefault();
+  }
   return (
     <div className="app">
       <h1 className="text-3xl font-bold text-center mt-8">Select Your Seats</h1>
@@ -77,6 +120,13 @@ function SeatMap() {
           </div>
         </div>
       ))}
+      <button
+        id="rzp-button1"
+        className="bg-green-200  px-2 py-2 rounded-md"
+        onClick={payNow}
+      >
+        Pay with Razorpay
+      </button>
     </div>
   );
 }
