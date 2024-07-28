@@ -33,7 +33,7 @@ app.use("/api/ejs", EjsRoutes);
 app.use("/api/theatre", TheatreRoutes);
 app.use("/api/booking", BookingRoutes);
 //running frontend on same port
-app.use("/", express.static("public"));
+// app.use("/", express.static("public"));
 app.listen(3000, async () => {
   await dbConnect();
   console.log("Server is Running at http://localhost:3000");
