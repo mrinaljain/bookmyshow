@@ -24,7 +24,9 @@ app.use(express.json());
 app.use(cookieParser());
 // Use express.urlencoded() to parse URL-encoded bodies
 app.use(express.urlencoded({ extended: true }));
-
+app.use("/ping", (req, res) => {
+  res.send("Welcome to BookAnyShow");
+});
 app.use("/api/user", UserRoutes);
 app.use("/api/movie", MovieRoutes);
 app.use("/api/show", ShowRoutes);
