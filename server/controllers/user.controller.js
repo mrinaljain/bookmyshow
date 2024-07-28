@@ -5,7 +5,13 @@ export const register = async (req, res) => {
   try {
     const userData = req.body;
     //encrypting the password usinf bcrypt pluging , it uses salt rounds
-    userData.password = await bcrypt.hash(userData.password, 10);
+    const saltRounds = 10;
+    const myPlaintextPassword = userData.password;
+    // bcrypt.hash(myPlaintextPassword, saltRounds, function (err, hash) {
+    // Store hash in your password DB.
+    // userData.password = hash;
+    // });
+    userData.password = await bcrypt.hash(userData.password, saltRounds);
     // checking if user already exists on DB
     const userExists = await User.findOne({
       email: userData.email.toLowerCase(),
@@ -42,6 +48,7 @@ export const register = async (req, res) => {
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
+    console.log("Reqest Body: ", req.body);
     // check is user exist
     // also we will append password to our response as it was ommited in user model
     const user = await User.findOne({ email: email.toLowerCase() }).select(
@@ -52,9 +59,8 @@ export const login = async (req, res) => {
       return;
       //compare passwords usinf decrypyt(encrypted one and the one user entered)
     } else {
-      const passcheck = await bcrypt.compare(user.password, password);
-      console.log(passcheck);
-      if (!passcheck) {
+      const match = await bcrypt.compare(password, user.password);
+      if (!match) {
         res.status(401).send({ status: false, message: "Invalid Password" });
         return;
       }
@@ -101,7 +107,6 @@ export const logout = async (req, res) => {
   try {
     // read the value of user id passed on from middleware
     // const userId = req.body.id;
-
     res.status(200).send({ success: true, message: "Logged out Succesfully" });
   } catch (error) {
     res.statusCode = 500;

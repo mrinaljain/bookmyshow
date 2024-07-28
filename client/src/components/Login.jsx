@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { LoginUser, RegisterUser } from '../api/user.api.js';
+import ROUTES from '../utils/constants/routes.js';
 
 function Login() {
    const [formData, setFormData] = useState({ fullName: "", email: "", password: "" });
@@ -43,7 +44,7 @@ function Login() {
 
    useEffect(() => {
       if (localStorage.getItem("token")) {
-         navigate("/movies")
+         navigate(ROUTES.HOME)
       }
    }, [])
 
@@ -53,7 +54,7 @@ function Login() {
                <img
                   className="mx-auto h-10 w-auto"
                   src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                  alt="Your Company"
+               alt="BookAnyShow"
                />
                <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
                   {login ? "Sign in to your account" : " Signup for an account"} 
