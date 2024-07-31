@@ -48,7 +48,6 @@ export const register = async (req, res) => {
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    console.log("Reqest Body: ", req.body);
     // check is user exist
     // also we will append password to our response as it was ommited in user model
     const user = await User.findOne({ email: email.toLowerCase() }).select(
