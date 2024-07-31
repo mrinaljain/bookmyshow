@@ -1,6 +1,4 @@
-const BASE_URL = "http://localhost:3000";
-// const BASE_URL = "https://bms-api-dmgc.onrender.com";
-// const PORT = "";
+const BASE_URL = process.env.BASE_URL || "https://bms-api-dmgc.onrender.com";
 
 export const LOGIN_API = `${BASE_URL}/api/user/login`;
 export const SIGNUP_API = `${BASE_URL}/api/user/register`;
