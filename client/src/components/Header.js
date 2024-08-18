@@ -35,6 +35,7 @@ function Header() {
       <img
         className="w-32"
         src="https://miro.medium.com/v2/resize:fit:1035/1*9WJgQmBw6FIxe8wypznWfQ.jpeg"
+        alt="bms"
       />
       <nav className="mr-auto pl-4">
         <Link>Category</Link>
@@ -51,6 +52,9 @@ function Header() {
         )}
         <Link to="/profile" className="bg-blue-200 border px-3 py-1 rounded">
           Profile
+        </Link>
+        <Link to="/chat" className="bg-blue-200 border px-3 py-1 rounded">
+          Chat
         </Link>
         <button
           onClick={handleLogout}

@@ -10,6 +10,7 @@ import MovieLayout from "../components/MovieLayout";
 import AdminLayout from "../components/AdminLayout";
 import MovieList from "../components/MovieList";
 import SeatMap from "../pages/SeatMap";
+import Chat from "../pages/Chat";
 
 export const router = createBrowserRouter([
   {
@@ -61,5 +62,9 @@ export const router = createBrowserRouter([
   {
     path: "/profile",
     element: <Profile />,
+  },
+  {
+    path: "/chat",
+    element: <Chat />,
   },
 ]);

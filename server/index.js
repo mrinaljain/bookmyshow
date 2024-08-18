@@ -11,10 +11,11 @@ import BookingRoutes from "./routes/booking.routes.js";
 import PaymentRoutes from "./routes/payment.routes.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import ejs from "ejs";
 import morgan from "morgan";
 import { Server } from "socket.io";
 import http from "http";
+import socketConfig from "./config/socketConfig.js";
+import "./cron/movieCron.js";
 const app = express();
 
 // enable CORS inside app
@@ -22,6 +23,7 @@ app.use(cors());
 // external logging middleware
 app.use(morgan("tiny"));
 app.set("view engine", "ejs");
+app.set("views", "./views");
 // convert serelised data into Json
 app.use(express.json());
 // need cookieParser middleware before we can do anything with cookies
@@ -43,28 +45,44 @@ app.use("/api/payment", PaymentRoutes);
 // app.use("/", express.static("public"));
 // listening socket connection
 const server = http.createServer(app);
-const io = new Server(server);
+const io = new Server(server, socketConfig);
+var userCount = 0;
+var room_no = 1;
+var roomAttendees = 0;
 io.on("connection", (socket) => {
-  console.log("a user connected");
-  setTimeout(() => {
-    socket.emit("custom","Custom Event from Server");
-  }, 3000);
-  socket.on("event", (data) => {
-    console.log(`${data}`);
+  userCount++;
+  console.log("A user connected");
+
+  //Creating a room/channel
+  socket.join(`room-${room_no}`);
+  roomAttendees++;
+  // sendimn event in specific room
+  socket
+    .in(`room-${room_no}`)
+    .emit("roomMessage", `messsage in room- ${room_no}`);
+
+  // creating limit on room attendees
+  if (roomAttendees > 2) {
+    roomAttendees = 0;
+    room_no++;
+  }
+  io.sockets.emit("broadcast", { userCount: userCount });
+  socket.on("message", (data) => {
+    io.emit("message", data); // io emmit for global
   });
   socket.on("disconnect", () => {
+    userCount--;
+    io.sockets.emit("broadcast", { userCount: userCount });
     console.log("user disconnected");
   });
 });
+// New namespace for new socket connection
+var nameSpace = io.of("new");
+nameSpace.on("connection", () => {});
 server.listen(3000, async () => {
   await dbConnect();
   console.log("Server is Running at http://localhost:3000");
 });
 
-
-// app.listen(3000, async () => {
-//   await dbConnect();
-//   console.log("Server is Running at http://localhost:3000");
-// });
 
 

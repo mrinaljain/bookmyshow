@@ -16,7 +16,7 @@ function AddMovie() {
     genre: "Drama",
     releaseDate: "",
     language: "English",
-    theatre: { name: "", location: "", phoneNumber: "" },
+    theatre: { name: "", location: "", phoneNumber: 0 },
   });
   async function addMovie(movieData) {
     try {
