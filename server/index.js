@@ -13,7 +13,10 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import ejs from "ejs";
 import morgan from "morgan";
+import { Server } from "socket.io";
+import http from "http";
 const app = express();
+
 // enable CORS inside app
 app.use(cors());
 // external logging middleware
@@ -38,9 +41,30 @@ app.use("/api/booking", BookingRoutes);
 app.use("/api/payment", PaymentRoutes);
 //running frontend on same port
 // app.use("/", express.static("public"));
-app.listen(3000, async () => {
+// listening socket connection
+const server = http.createServer(app);
+const io = new Server(server);
+io.on("connection", (socket) => {
+  console.log("a user connected");
+  setTimeout(() => {
+    socket.emit("custom","Custom Event from Server");
+  }, 3000);
+  socket.on("event", (data) => {
+    console.log(`${data}`);
+  });
+  socket.on("disconnect", () => {
+    console.log("user disconnected");
+  });
+});
+server.listen(3000, async () => {
   await dbConnect();
   console.log("Server is Running at http://localhost:3000");
 });
+
+
+// app.listen(3000, async () => {
+//   await dbConnect();
+//   console.log("Server is Running at http://localhost:3000");
+// });
 
 

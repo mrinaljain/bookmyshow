@@ -39,7 +39,14 @@ export const listShows = async function (req, res) {
           },
         },
       },
-    ]).exec();
+    ])
+      .exec()
+      .then((movies) => {
+        console.log(movies);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
     res
       .status(200)
       .json({ success: true, message: "Shows Found", data: response });
