@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import io from "socket.io-client";
 
-const SOCKET_SERVER_URL = "ws://localhost:3000"; // Replace with your server URL
+const SOCKET_SERVER_URL = "ws://localhost:3002"; // Replace with your server URL
 function Chat() {
   const [message, setMessage] = useState("");
   const [count, setCount] = useState(0);
@@ -30,18 +30,58 @@ function Chat() {
   };
   return (
     <div>
-      <h2>Total live users: {count}</h2>
-      <div>
-        {messages.map((msg, index) => (
-          <div key={index}>{msg}</div>
-        ))}
+      <h2 className="">Total live users: {count}</h2>
+      <div class="flex flex-col h-screen">
+        <div class="flex-grow overflow-y-auto p-4">
+          {/* Chat Bubble -  All*/}
+          {messages.map((msg, index) => (
+            <div class="flex mb-4" key={index}>
+              <div class="bg-gray-200 p-3 rounded-lg max-w-xs">
+                <p class="text-gray-800">{msg}</p>
+              </div>
+            </div>
+          ))}
+          <div class="flex mb-4">
+            <div class="bg-gray-200 p-3 rounded-lg max-w-xs">
+              <p class="text-gray-800">"All"</p>
+              {/* <p class="text-gray-800">Hello! How can I assist you today?</p> */}
+            </div>
+          </div>
+          {/* Chat Bubble - Sent */}
+          <div class="flex justify-end mb-4">
+            <div class="bg-blue-500 text-white p-3 rounded-lg max-w-xs">
+              <p>Hi! I need help with an issue.</p>
+            </div>
+          </div>
+          {/* Chat Bubble - Received */}
+          <div class="flex mb-4">
+            <div class="bg-gray-200 p-3 rounded-lg max-w-xs">
+              <p class="text-gray-800">Sure, what seems to be the problem?</p>
+            </div>
+          </div>
+          {/* Additional Chat Bubble for other users */}
+          <div class="flex mb-4">
+            <div class="bg-green-200 p-3 rounded-lg max-w-xs">
+              <p class="text-gray-800">Can you please share more details?</p>
+            </div>
+          </div>
+        </div>
+        {/* Chat Input */}
+        <div class="bg-gray-100 p-4 flex">
+          <input
+            type="text"
+            placeholder="Type a message..."
+            class="flex-grow p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            onChange={(e) => setMessage(e.target.value)}
+          />
+          <button
+            class="ml-2 bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600"
+            onClick={sendMessage}
+          >
+            Send
+          </button>
+        </div>
       </div>
-      <input
-        type="text"
-        value={message}
-        onChange={(e) => setMessage(e.target.value)}
-      />
-      <button onClick={sendMessage}>Send</button>
     </div>
   );
 }

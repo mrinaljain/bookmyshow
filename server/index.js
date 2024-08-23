@@ -52,7 +52,9 @@ var roomAttendees = 0;
 io.on("connection", (socket) => {
   userCount++;
   console.log("A user connected");
-
+  setTimeout(() => {
+    // socket.emmit();
+  }, 1000);
   //Creating a room/channel
   socket.join(`room-${room_no}`);
   roomAttendees++;
@@ -79,7 +81,7 @@ io.on("connection", (socket) => {
 // New namespace for new socket connection
 var nameSpace = io.of("new");
 nameSpace.on("connection", () => {});
-server.listen(3000, async () => {
+server.listen(3002, async () => {
   await dbConnect();
   console.log("Server is Running at http://localhost:3000");
 });
