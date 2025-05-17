@@ -83,7 +83,7 @@ var nameSpace = io.of("new");
 nameSpace.on("connection", () => {});
 server.listen(3002, async () => {
   await dbConnect();
-  console.log("Server is Running at http://localhost:3000");
+  console.log("Server is Running at http://localhost:3002");
 });
 
 
